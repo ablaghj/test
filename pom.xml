@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>fr.hm.acdc-demat</groupId>
+	<artifactId>acdc-demat-batch</artifactId>
+	<version>1.0.1-snapshot</version>
+	<modules>
+		<module>cfg</module>
+		<module>app</module>
+	</modules>
+	<packaging>pom</packaging>
+
+	<name>acdc-demat-back</name>
+	<description>Projet Batch acdc-demat.</description>
+
+	<!-- TODO: déplacer dans un pom entreprise -->
+	<!-- Repository pour les livraisons -->
+	<distributionManagement>
+		<site>
+			<id>sihm.maven.sites</id>
+			<url>${sihm.sftp.javadoc}</url>
+		</site>
+		<repository>
+			<id>sihm.release</id>
+			<name>Repository Interne des Releases</name>
+			<url>${sihm.sftp.repository}</url>
+		</repository>
+		<snapshotRepository>
+			<id>sihm.snapshots</id>
+			<name>Repository Interne des Snapshots</name>
+			<uniqueVersion>false</uniqueVersion>
+			<url>${sihm.sftp.snapshot.repository}</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<spring.boot.version>2.1.0.RELEASE</spring.boot.version>
+
+        <hm.fwk.spring.api.version>2.0.0</hm.fwk.spring.api.version>
+        <hm.fwk.spring.batch.version>2.0.1</hm.fwk.spring.batch.version>
+	</properties>
+
+	<!-- Paramètres gestionnaire de version (Subversion) -->
+	<scm>
+		<connection>scm:git:https://github.com/hm-it/acdc-demat-api.git</connection>
+		<developerConnection>scm:git:https://github.com/hm-it/acdc-demat-api.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<!-- dependencies management -->
+	<dependencyManagement>
+		<dependencies>
+			<!-- Import dependency management from Spring Boot -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring.boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+            <dependency>
+                <groupId>fr.hm.fwk</groupId>
+                <artifactId>fwk-spring-hm-api</artifactId>
+                <version>${hm.fwk.spring.api.version}</version>
+            </dependency>
+	        <dependency>
+	            <groupId>fr.hm.fwk</groupId>
+	            <artifactId>fwk-spring-hm-batch</artifactId>
+                <version>${hm.fwk.spring.batch.version}</version>
+            </dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+        <!-- Spring boot fat jar -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
+        <!-- Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-ldap</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-ldap</artifactId>
+        </dependency>
+
+        <!-- Actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+
+        <!-- Devtools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Tests -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.restdocs</groupId>
+            <artifactId>spring-restdocs-mockmvc</artifactId>
+            <scope>test</scope>
+        </dependency>
+	</dependencies>
+
+	<!-- TODO: déplacer dans le settings.xml de maven -->
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<envClassifier>dev</envClassifier>
+			</properties>
+		</profile>
+		<profile>
+			<id>int</id>
+			<properties>
+				<envClassifier>int</envClassifier>
+			</properties>
+		</profile>
+		<profile>
+			<id>liv</id>
+			<properties>
+				<envClassifier>liv</envClassifier>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>sonar-project.properties</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<!-- TODO: déplacer dans un pom entreprise -->
+		<!-- Permet l'upload via scp vers le serveur Nexus. -->
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-ssh</artifactId>
+				<version>2.12</version>
+			</extension>
+		</extensions>
+
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${spring.boot.version}</version>
+				<configuration>
+					<classifier>exec</classifier>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<useDefaultDelimiters>false</useDefaultDelimiters>
+					<delimiters>
+						<delimiter>${*}</delimiter>
+					</delimiters>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

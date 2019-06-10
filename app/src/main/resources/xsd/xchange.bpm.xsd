@@ -1,0 +1,123 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="description">
+            <xs:complexType>
+                  <xs:sequence>
+                        <xs:element name="types">
+                              <xs:complexType>
+                                    <xs:sequence>
+                                          <xs:element name="type">
+                                                <xs:complexType>
+                                                      <xs:sequence>
+                                                            <xs:element name="attributes">
+                                                                  <xs:complexType>
+                                                                        <xs:sequence>
+                                                                              <xs:element name="attribute" maxOccurs="unbounded" minOccurs="0">
+                                                                                    <xs:complexType>
+                                                                                          <xs:sequence>
+                                                                                                <xs:element type="xs:string" name="attname"/>
+                                                                                                <xs:element type="xs:string" name="label"/>
+                                                                                                <xs:element type="xs:string" name="datatype"/>
+                                                                                                <xs:element type="xs:string" name="multiplicity"/>
+                                                                                          </xs:sequence>
+                                                                                    </xs:complexType>
+                                                                              </xs:element>
+                                                                        </xs:sequence>
+                                                                  </xs:complexType>
+                                                            </xs:element>
+                                                            <xs:element name="keys">
+                                                                  <xs:complexType>
+                                                                        <xs:sequence>
+                                                                              <xs:element type="xs:string" name="key"/>
+                                                                        </xs:sequence>
+                                                                  </xs:complexType>
+                                                            </xs:element>
+                                                      </xs:sequence>
+                                                      <xs:attribute type="xs:string" name="name"/>
+                                                </xs:complexType>
+                                          </xs:element>
+                                    </xs:sequence>
+                              </xs:complexType>
+                        </xs:element>
+                        <xs:element name="featuredescriptions">
+                              <xs:complexType>
+                                    <xs:sequence>
+                                          <xs:element name="featuredescription">
+                                                <xs:complexType>
+                                                      <xs:simpleContent>
+                                                            <xs:extension base="xs:string">
+                                                                  <xs:attribute type="xs:float" name="feature.version"/>
+                                                                  <xs:attribute type="xs:string" name="feature.name"/>
+                                                            </xs:extension>
+                                                      </xs:simpleContent>
+                                                </xs:complexType>
+                                          </xs:element>
+                                    </xs:sequence>
+                              </xs:complexType>
+                        </xs:element>
+                  </xs:sequence>
+            </xs:complexType>
+      </xs:element>
+      <xs:element name="objects">
+            <xs:complexType>
+                  <xs:sequence>
+                        <xs:element name="object" maxOccurs="unbounded" minOccurs="0">
+                              <xs:complexType>
+                                    <xs:sequence>
+                                          <xs:element type="xs:string" name="type"/>
+                                          <xs:element name="datainstances">
+                                                <xs:complexType>
+                                                      <xs:sequence>
+                                                            <xs:element name="datainstance" maxOccurs="unbounded" minOccurs="0">
+                                                                  <xs:complexType>
+                                                                        <xs:sequence>
+                                                                              <xs:element name="datavalue">
+                                                                                    <xs:complexType>
+                                                                                          <xs:sequence>
+                                                                                                <xs:element type="xs:string" name="stringdata" minOccurs="0"/>
+                                                                                                <xs:element type="xs:dateTime" name="datedata" minOccurs="0"/>
+                                                                                          </xs:sequence>
+                                                                                    </xs:complexType>
+                                                                              </xs:element>
+                                                                        </xs:sequence>
+                                                                        <xs:attribute type="xs:string" name="name" use="optional"/>
+                                                                  </xs:complexType>
+                                                            </xs:element>
+                                                      </xs:sequence>
+                                                </xs:complexType>
+                                          </xs:element>
+                                          <xs:element name="features">
+                                                <xs:complexType>
+                                                      <xs:sequence>
+                                                            <xs:element name="feature">
+                                                                  <xs:complexType>
+                                                                        <xs:sequence>
+                                                                              <xs:element name="contentspec">
+                                                                                    <xs:complexType>
+                                                                                          <xs:sequence>
+                                                                                                <xs:element name="primarycontent">
+                                                                                                      <xs:complexType>
+                                                                                                            <xs:sequence>
+                                                                                                                  <xs:element type="xs:string" name="filename"/>
+                                                                                                                  <xs:element type="xs:string" name="mimetype"/>
+                                                                                                            </xs:sequence>
+                                                                                                      </xs:complexType>
+                                                                                                </xs:element>
+                                                                                          </xs:sequence>
+                                                                                    </xs:complexType>
+                                                                              </xs:element>
+                                                                        </xs:sequence>
+                                                                        <xs:attribute type="xs:string" name="feature.name" use="optional"/>
+                                                                  </xs:complexType>
+                                                            </xs:element>
+                                                      </xs:sequence>
+                                                </xs:complexType>
+                                          </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute type="xs:string" name="identifier" use="optional"/>
+                                    <xs:attribute type="xs:string" name="context" use="optional"/>
+                              </xs:complexType>
+                        </xs:element>
+                  </xs:sequence>
+            </xs:complexType>
+      </xs:element>
+</xs:schema>
